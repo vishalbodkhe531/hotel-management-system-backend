@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
 import userRoutes from "./routes/users.routes";
+import cookieParser from "cookie-parser";
 
 //Database Connection
 mongoose
@@ -14,7 +15,14 @@ const server = express();
 
 server.use(express.json());
 
-server.use(cors());
+server.use(cookieParser());
+
+server.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 
 server.use("/api/user", userRoutes);
 
